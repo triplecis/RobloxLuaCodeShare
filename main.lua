@@ -1,1 +1,3 @@
+--!strict
 
+print("loadstring test")
