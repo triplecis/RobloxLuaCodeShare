@@ -121,7 +121,7 @@ end)
 
 
 local Window = Library:CreateWindow({
-    Title = 'Linoria UI Example',
+    Title = 'SMILE',
     Center = true,
     AutoShow = true
 })
@@ -240,11 +240,15 @@ UniversalMovement:AddDropdown('Playerlist', {
 
 UniversalMovement:AddButton('Teleport to Player', function()
     local targetName = Options.Playerlist.Value
-    if not targetName then return end
+    if not targetName or targetName == "" then return end
 
     local targetPlayer = _Players:FindFirstChild(targetName)
-    if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
-        _LocalRoot.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame
+    local hrp = targetPlayer 
+        and targetPlayer.Character 
+        and targetPlayer.Character:FindFirstChild("HumanoidRootPart")
+
+    if hrp then
+        _LocalRoot.CFrame = hrp.CFrame + hrp.CFrame.LookVector * 3
     end
 end)
 
