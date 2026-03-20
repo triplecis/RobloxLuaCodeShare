@@ -23,11 +23,11 @@ end)
 --[[ Themes and Configs ]]--
 _Linoria.ThemeManager:SetLibrary(_Linoria.Library)
 _Linoria.ThemeManager:SetFolder('SMILE/themes')
-_Linoria.ThemeManager:ApplyToTab(_Tabs.Settings)
+_Linoria.ThemeManager:ApplyToTab(_Tabs.Settings:AddRightGroupbox('Themes'))
 
 _Linoria.SaveManager:SetLibrary(_Linoria.Library)
 _Linoria.SaveManager:IgnoreThemeSettings()
 _Linoria.SaveManager:SetFolder('SMILE/configs')
-_Linoria.SaveManager:BuildConfigSection(_Tabs.Settings:AddRightGroupbox('Configs'))
+_Linoria.SaveManager:BuildConfigSection(_Tabs.Settings)
 
 _Linoria.Library.ToggleKeybind = Options.MenuKeybind
