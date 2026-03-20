@@ -1,7 +1,7 @@
 print('Settings module loaded')
 
 --[[ Groupboxes ]]--
-local SettingsMenu    = _Tabs.Settings:AddLeftGroupbox('Menu')
+local SettingsMenu = _Tabs.Settings:AddLeftGroupbox('Menu')
 local SettingsDiscord = _Tabs.Settings:AddLeftGroupbox('Discord')
 
 --[[ Menu ]]--
@@ -22,6 +22,9 @@ end)
 
 --[[ Themes and Configs ]]--
 _Linoria.ThemeManager:ApplyToGroupbox(_Tabs.Settings:AddRightGroupbox('Themes'))
+_Linoria.SaveManager:SetLibrary(_Linoria.Library)
+_Linoria.SaveManager:IgnoreThemeSettings()
+_Linoria.SaveManager:SetFolder('SMILE/configs')
 _Linoria.SaveManager:BuildConfigSection(_Tabs.Settings:AddRightGroupbox('Configs'))
 
 _Linoria.Library.ToggleKeybind = Options.MenuKeybind
