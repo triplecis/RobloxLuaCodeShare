@@ -14,6 +14,13 @@ local velocity = Vector3.zero
 local bodyVel
 local bodyGyro
 
+local vehicleFlying = false
+local vehicleSpeed = 60
+local vehicleVelocity = Vector3.zero
+local vehicleBodyVel
+local vehicleBodyGyro
+local currentSeat
+
 local UIReady = false
 
 local ESPObjects = {}
@@ -82,6 +89,88 @@ _RunService.RenderStepped:Connect(function()
     bodyVel.Velocity = velocity
     bodyGyro.CFrame = cam.CFrame
 end)
+
+--[[ Vehicle Fly ]]--
+local function getVehicleRoot()
+    if not currentSeat then return nil end
+    return currentSeat:FindFirstAncestorOfClass("Model") and 
+           currentSeat:FindFirstAncestorOfClass("Model"):FindFirstChild("VehicleSeat") and
+           currentSeat:FindFirstAncestorOfClass("Model").PrimaryPart or
+           currentSeat
+end
+
+local function startVehicleFly()
+    if vehicleFlying then return end
+    local root = getVehicleRoot()
+    if not root then return end
+    vehicleFlying = true
+
+    vehicleBodyVel = Instance.new("BodyVelocity")
+    vehicleBodyVel.MaxForce = Vector3.new(1e6, 1e6, 1e6)
+    vehicleBodyVel.Velocity = Vector3.zero
+    vehicleBodyVel.Parent = root
+
+    vehicleBodyGyro = Instance.new("BodyGyro")
+    vehicleBodyGyro.MaxTorque = Vector3.new(1e6, 1e6, 1e6)
+    vehicleBodyGyro.CFrame = root.CFrame
+    vehicleBodyGyro.Parent = root
+end
+
+local function stopVehicleFly()
+    vehicleFlying = false
+    if vehicleBodyVel then vehicleBodyVel:Destroy() end
+    if vehicleBodyGyro then vehicleBodyGyro:Destroy() end
+    vehicleVelocity = Vector3.zero
+end
+
+-- Detect seat changes
+_Player.CharacterAdded:Connect(function(char)
+    char:WaitForChild("Humanoid").Seated:Connect(function(isSeated, seat)
+        if isSeated and seat:IsA("VehicleSeat") then
+            currentSeat = seat
+        else
+            currentSeat = nil
+            if vehicleFlying then stopVehicleFly() end
+        end
+    end)
+end)
+
+if _LocalCharacter then
+    _LocalHumanoid.Seated:Connect(function(isSeated, seat)
+        if isSeated and seat:IsA("VehicleSeat") then
+            currentSeat = seat
+        else
+            currentSeat = nil
+            if vehicleFlying then stopVehicleFly() end
+        end
+    end)
+end
+
+-- Vehicle fly loop
+_RunService.RenderStepped:Connect(function()
+    if not vehicleFlying then return end
+    local root = getVehicleRoot()
+    if not root then stopVehicleFly() return end
+
+    local cam = _CurrentCamera
+    local isDown = function(k) return _UserInputService:IsKeyDown(Enum.KeyCode[k]) end
+
+    local moveDir =
+        (isDown("W") and cam.CFrame.LookVector or Vector3.zero) +
+        (isDown("S") and -cam.CFrame.LookVector or Vector3.zero) +
+        (isDown("A") and -cam.CFrame.RightVector or Vector3.zero) +
+        (isDown("D") and cam.CFrame.RightVector or Vector3.zero) +
+        (isDown("Space") and Vector3.yAxis or Vector3.zero) +
+        (isDown("LeftShift") and -Vector3.yAxis or Vector3.zero)
+
+    vehicleVelocity = vehicleVelocity:Lerp(
+        moveDir.Magnitude > 0 and moveDir.Unit * vehicleSpeed or Vector3.zero, 0.2
+    )
+
+    vehicleBodyVel.Velocity = vehicleVelocity
+    vehicleBodyGyro.CFrame = cam.CFrame
+end)
+
 
 --[[ Noclip ]]--
 _RunService.Stepped:Connect(function()
@@ -530,6 +619,44 @@ UniversalMovement:AddLabel("Fly Keybind"):AddKeyPicker("FlyKey", {
     Text = "Fly Key",
     Callback = function()
         Toggles.FlyToggle:SetValue(not Toggles.FlyToggle.Value)
+    end
+})
+
+UniversalMovement:AddToggle('VehicleFlyToggle', {
+    Text = 'Vehicle Fly',
+    Tooltip = 'Must be seated in a vehicle.',
+    Default =false,
+    Callback = function(value)
+        if value then
+            if not currentSeat then
+                Toggles.VehicleFly:SetValue(false)
+                return
+            end
+            startVehicleFly()
+        else
+            stopVehicleFly()
+        end
+    end
+})
+
+UniversalMovement:AddSlider('VehicleFlySpeed', {
+    Text = 'Vehicle Fly Speed',
+    Default = 60,
+    Min = 10,
+    Max = 500,
+    Rounding = 1,
+    Compact = true,
+    Callback = function(value)
+        vehicleSpeed = value
+    end
+})
+
+UniversalMovement:AddLabel("Vehicle Fly Keybind"):AddKeyPicker("VehicleFlyKey", {
+    Default = "",
+    Mode = "Toggle",
+    Text = "Vehicle Fly Key",
+    Callback = function()
+        Toggles.VehicleFlyToggle:SetValue(not Toggles.VehicleFlyToggle.Value)
     end
 })
 
