@@ -1,11 +1,11 @@
 print('Universal module loaded')
 
 --[[ Groupboxes ]]--
-local UniversalMovement  = _Tabs.Universal:AddLeftGroupbox('Movement')
+local UniversalMovement = _Tabs.Universal:AddLeftGroupbox('Movement')
 local UniversalUtilities = _Tabs.Universal:AddLeftGroupbox('Utilities')
-local UniversalCamera    = _Tabs.Universal:AddLeftGroupbox('Camera')
-local UniversalWorld     = _Tabs.Universal:AddRightGroupbox('World')
-local UniversalRender    = _Tabs.Universal:AddRightGroupbox('Render')
+local UniversalCamera = _Tabs.Universal:AddLeftGroupbox('Camera')
+local UniversalWorld = _Tabs.Universal:AddRightGroupbox('World')
+local UniversalRender = _Tabs.Universal:AddRightGroupbox('Render')
 
 --[[ Variables ]]--
 local flying = false
@@ -14,10 +14,10 @@ local velocity = Vector3.zero
 local bodyVel
 local bodyGyro
 
-local ESPObjects      = {}
-local ChamsObjects    = {}
-local TracerObjects   = {}
-local NametagObjects  = {}
+local ESPObjects = {}
+local ChamsObjects = {}
+local TracerObjects = {}
+local NametagObjects = {}
 local HealthbarObjects = {}
 
 --[[ Character ]]--
@@ -27,7 +27,13 @@ local function getChar()
     local _LocalRoot = _LocalCharacter:WaitForChild("HumanoidRootPart")
 end
 
-getChar()
+-- Wait for character to exist before calling
+if _Player.Character then
+    getChar()
+else
+    _Player.CharacterAdded:Wait()
+    getChar()
+end
 
 _Player.CharacterAdded:Connect(function()
     task.wait(1)

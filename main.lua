@@ -83,3 +83,7 @@ else
     _Tabs.Game:SetVisible(false)
     print('No specific module for this game, universal only.')
 end
+print('If 2 [table] then Theme and Save Manager work')
+print(type(_Linoria.ThemeManager)) 
+print(type(_Linoria.SaveManager))
+print('...')
