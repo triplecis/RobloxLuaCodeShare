@@ -22,9 +22,9 @@ local HealthbarObjects = {}
 
 --[[ Character ]]--
 local function getChar()
-    _LocalCharacter = _Player.Character or _Player.CharacterAdded:Wait()
-    _LocalHumanoid  = _LocalCharacter:WaitForChild("Humanoid")
-    _LocalRoot      = _LocalCharacter:WaitForChild("HumanoidRootPart")
+    local _LocalCharacter = _Player.Character or _Player.CharacterAdded:Wait()
+    local _LocalHumanoid = _LocalCharacter:WaitForChild("Humanoid")
+    local _LocalRoot = _LocalCharacter:WaitForChild("HumanoidRootPart")
 end
 
 getChar()
