@@ -21,7 +21,10 @@ SettingsDiscord:AddButton("Copy Discord", function()
 end)
 
 --[[ Themes and Configs ]]--
+_Linoria.ThemeManager:SetLibrary(_Linoria.Library)
+_Linoria.ThemeManager:SetFolder('SMILE/themes')
 _Linoria.ThemeManager:ApplyToGroupbox(_Tabs.Settings:AddRightGroupbox('Themes'))
+
 _Linoria.SaveManager:SetLibrary(_Linoria.Library)
 _Linoria.SaveManager:IgnoreThemeSettings()
 _Linoria.SaveManager:SetFolder('SMILE/configs')
