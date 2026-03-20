@@ -1,4 +1,5 @@
-_Tabs.Game:AddLabel('No game specific features yet, check back later!')
+local GameGroupBox = _Tabs.Game:AddRightGroupbox('Game')
+GameGroupBox:AddLabel('No game specific features yet, check back later!')
 
 -- Nothing Yet
 
