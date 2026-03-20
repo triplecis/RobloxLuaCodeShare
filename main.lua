@@ -21,14 +21,22 @@ _Tabs = {
 local MainLeftGroupBox = _Tabs.Main:AddLeftGroupbox('Example')
 
 --[[ Services ]]--
+local _Players = game:GetService("Players")
 local _RunService = game:GetService("RunService")
 local _UserInputService = game:GetService("UserInputService")
-local _Players = game:GetService("Players")
+local _TweenService = game:GetService("TweenService")
+local _HttpService = game:GetService("HttpService")
+local _ReplicatedStorage = game:GetService("ReplicatedStorage")
+local _SoundService = game:GetService("SoundService")
+local _PathfindingService = game:GetService("PathfindingService")
+local _VirtualInputManager = game:GetService("VirtualInputManager")
+local _ContextActionService = game:GetService("ContextActionService")
+
+local _CurrentCamera = workspace.CurrentCamera
 local _Player = _Players.LocalPlayer
 local _LocalCharacter = _Player.Character
-local _LocalRoot = _LocalCharacter.HumanoidRootPart
 local _LocalHumanoid = _LocalCharacter.Humanoid
-local _CurrentCamera = workspace.CurrentCamera
+local _LocalRoot = _LocalCharacter.HumanoidRootPart
 local _Mouse = _Player:GetMouse()
 
 --[[ Code ]]--
