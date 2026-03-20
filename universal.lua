@@ -197,29 +197,24 @@ _UserInputService.JumpRequest:Connect(function()
 end)
 
 --[[ Platform ]]--
-local function createPlatform()
+The issue is the WeldConstraint doesn't respect the offset — it just locks the parts together at their current positions. Use a Motor6D or just ditch the weld and manually position it every frame properly:
+lualocal function createPlatform()
     if platformPart then return end
     local root = _LocalRoot
     if not root then return end
 
     platformPart = Instance.new("Part")
     platformPart.Size = Vector3.new(6, 0.5, 6)
-    platformPart.Anchored = false
+    platformPart.Anchored = true
     platformPart.CanCollide = true
     platformPart.BrickColor = BrickColor.new("Medium stone grey")
     platformPart.Material = Enum.Material.SmoothPlastic
     platformPart.CastShadow = false
     platformPart.Name = "SMILEPlatform"
-    platformPart.Parent = _LocalCharacter  -- parented to character
+    platformPart.Parent = _LocalCharacter
 
-    -- Weld it to the root so it follows automatically
-    local weld = Instance.new("WeldConstraint")
-    weld.Part0 = root
-    weld.Part1 = platformPart
-    weld.Parent = platformPart
-
-    -- Set initial offset below player
-    platformPart.CFrame = root.CFrame * CFrame.new(0, platformHeight, 0)
+    -- Place it correctly under the player immediately
+    platformPart.CFrame = CFrame.new(root.Position.X, root.Position.Y + platformHeight, root.Position.Z)
 
     platformConnection = _RunService.RenderStepped:Connect(function()
         if not platformActive or not root or not root.Parent then
@@ -227,15 +222,19 @@ local function createPlatform()
             return
         end
 
-        -- Q and E adjust the weld offset by moving the part
         if _UserInputService:IsKeyDown(Enum.KeyCode.E) then
             platformHeight = platformHeight + platformSpeed
-            platformPart.CFrame = root.CFrame * CFrame.new(0, platformHeight, 0)
         end
         if _UserInputService:IsKeyDown(Enum.KeyCode.Q) then
             platformHeight = platformHeight - platformSpeed
-            platformPart.CFrame = root.CFrame * CFrame.new(0, platformHeight, 0)
         end
+
+        -- Update position every frame keeping X and Z locked to player
+        platformPart.CFrame = CFrame.new(
+            root.Position.X,
+            root.Position.Y + platformHeight,
+            root.Position.Z
+        )
     end)
 end
 
