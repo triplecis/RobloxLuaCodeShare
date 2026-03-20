@@ -1,4 +1,4 @@
-print('Loading SMILE at ' .. os.date('%X'))
+print('Executed SMILE at ' .. os.date('%X'))
 _Linoria = {
     Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/Library.lua'))(),
     ThemeManager = loadstring(game:HttpGet('https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/addons/ThemeManager.lua'))(),
