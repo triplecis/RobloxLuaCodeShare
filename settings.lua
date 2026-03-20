@@ -1,5 +1,13 @@
 print('Settings module loaded')
 
+print(type(_Linoria.ThemeManager))
+print(_Linoria.ThemeManager)
+
+for k, v in pairs(_Linoria.ThemeManager) do
+    print(k, v)
+end
+
+
 --[[ Groupboxes ]]--
 local SettingsMenu    = _Tabs.Settings:AddLeftGroupbox('Menu')
 local SettingsDiscord = _Tabs.Settings:AddLeftGroupbox('Discord')
