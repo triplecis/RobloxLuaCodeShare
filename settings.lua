@@ -29,7 +29,7 @@ SettingsDiscord:AddButton("Copy Discord", function()
 end)
 
 --[[ Themes and Configs ]]--
-_Linoria.ThemeManager:BuildThemeSection(_Tabs.Settings:AddRightGroupbox('Themes'))
+_Linoria.ThemeManager:ApplyToGroupbox(_Tabs.Settings:AddRightGroupbox('Themes'))
 _Linoria.SaveManager:BuildConfigSection(_Tabs.Settings:AddRightGroupbox('Configs'))
 
 _Linoria.Library.ToggleKeybind = Options.MenuKeybind
