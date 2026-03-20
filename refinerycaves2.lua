@@ -1,3 +1,5 @@
+_Tabs.Game:AddLabel('No game specific features yet, check back later!')
+
 -- Nothing Yet
 
 --[[ Notes
