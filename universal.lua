@@ -27,13 +27,7 @@ local function getChar()
     _LocalRoot = _LocalCharacter:WaitForChild("HumanoidRootPart")
 end
 
--- Wait for character to exist before calling
-if _Player.Character then
-    getChar()
-else
-    _Player.CharacterAdded:Wait()
-    getChar()
-end
+task.spawn(getChar)
 
 _Player.CharacterAdded:Connect(function()
     task.wait(1)
