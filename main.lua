@@ -82,6 +82,7 @@ end
 
 loadModule('https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/universal.lua')
 loadModule('https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/settings.lua')
+loadModule('https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/characterportrait.lua')
 
 if GameModules[PlaceId] then
     loadModule(GameModules[PlaceId])
