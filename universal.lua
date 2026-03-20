@@ -7,17 +7,6 @@ local UniversalCamera = _Tabs.Universal:AddLeftGroupbox('Camera')
 local UniversalWorld = _Tabs.Universal:AddRightGroupbox('World')
 local UniversalRender = _Tabs.Universal:AddRightGroupbox('Render')
 
---[[ Services ]]--
-local _RunService = game:GetService("RunService")
-local _UserInputService = game:GetService("UserInputService")
-local _Players = game:GetService("Players")
-local _Player = _Players.LocalPlayer
-local _LocalCharacter = _Player.Character
-local _LocalRoot = _LocalCharacter and _LocalCharacter:FindFirstChild("HumanoidRootPart")
-local _LocalHumanoid = _LocalCharacter and _LocalCharacter:FindFirstChild("Humanoid")
-local _CurrentCamera = workspace.CurrentCamera
-local _Mouse = _Player:GetMouse()
-
 --[[ Functions / Code ]]--
 local flying = false
 local speed = 60
