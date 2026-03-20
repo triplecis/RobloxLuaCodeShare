@@ -679,7 +679,7 @@ local PlayerDropdown = UniversalUtilities:AddDropdown('Playerlist', {
     Text = 'Player List',
     Default = nil,
     AllowNull = true,
-    Values = getPlayerList(),
+    Values = {},
     Multi = false,
 })
 
@@ -717,5 +717,9 @@ end)
 
 _Players.PlayerRemoving:Connect(function()
     task.wait(0.1)
+    PlayerDropdown:SetValues(getPlayerList())
+end)
+
+task.delay(1, function()
     PlayerDropdown:SetValues(getPlayerList())
 end)
