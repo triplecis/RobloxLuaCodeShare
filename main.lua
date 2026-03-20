@@ -39,7 +39,7 @@ local placeID = game.PlaceId
 local jobID = game.JobId
 local universeID = game.GameId
 
-local gameModules = {
+local GameModules = {
     [12196278347] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/refinerycaves2.lua', -- Refinery Caves 2
     [192800] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/workatapizzaplace.lua', -- Work at a Pizza Place
     [5523851880] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/8ballpoolclassic.lua', -- 8 Ball Pool Classic
@@ -48,6 +48,19 @@ local gameModules = {
     [277751860] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/epicminigames.lua' -- Epic Minigames
     [6722921118] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/colorbook.lua' -- Color Book
 }
+
+local function loadModule(url)
+    loadstring(game:HttpGet(url))()
+end
+
+loadModule('https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/universal.lua')
+
+if GameModules[PlaceId] then
+    loadModule(GameModules[PlaceId])
+else
+    print('No specific module for this game, universal only.')
+end
+
 
 --[[ Linoria ]]--
 
