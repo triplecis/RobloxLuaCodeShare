@@ -324,6 +324,15 @@ local function createESP(player)
 end
 
 --[[ ESP Boxes ]]--
+local function removeBoxes()
+    for _, objects in pairs(ESPObjects) do
+        for _, obj in pairs(objects) do
+            if obj then obj:Remove() end
+        end
+    end
+    ESPObjects = {}
+end
+
 local function createBox(player)
     if player == _Player then return end
     ESPObjects[player] = {}
@@ -761,11 +770,11 @@ UniversalMovement:AddLabel("Fly Keybind"):AddKeyPicker("FlyKey", {
 UniversalMovement:AddToggle('VehicleFlyToggle', {
     Text = 'Vehicle Fly',
     Tooltip = 'Must be seated in a vehicle.',
-    Default =false,
+    Default = false,
     Callback = function(value)
         if value then
             if not currentSeat then
-                Toggles.VehicleFly:SetValue(false)
+                Toggles.VehicleFlyToggle:SetValue(false) -- fix here
                 return
             end
             startVehicleFly()
