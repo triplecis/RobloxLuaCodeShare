@@ -324,15 +324,6 @@ local function createESP(player)
 end
 
 --[[ ESP Boxes ]]--
-local function removeBoxes()
-    for _, objects in pairs(ESPObjects) do
-        for _, obj in pairs(objects) do
-            if obj and obj.Parent then obj:Destroy() end
-        end
-    end
-    ESPObjects = {}
-end
-
 local function createBox(player)
     if player == _Player then return end
     ESPObjects[player] = {}
@@ -340,25 +331,83 @@ local function createBox(player)
     local function applyBox(character)
         if ESPObjects[player] then
             for _, obj in pairs(ESPObjects[player]) do
-                if obj and obj.Parent then obj:Destroy() end
+                if obj then obj:Remove() end
             end
             ESPObjects[player] = {}
         end
 
         local hrp = character:WaitForChild("HumanoidRootPart")
 
-        local box = Instance.new("SelectionBox")
-        box.Adornee = hrp
-        box.Color3 = Color3.fromRGB(255, 0, 0)
-        box.LineThickness = 0.03
-        box.SurfaceTransparency = 1      -- no fill
-        box.SurfaceColor3 = Color3.fromRGB(255, 0, 0)
-        box.Parent = game.CoreGui
+        -- Create 4 lines for the 2D box
+        local lines = {}
+        for i = 1, 4 do
+            local line = Drawing.new("Line")
+            line.Thickness = 1
+            line.Color = Color3.fromRGB(255, 0, 0)
+            line.Transparency = 1
+            line.Visible = false
+            table.insert(lines, line)
+            table.insert(ESPObjects[player], line)
+        end
 
-        table.insert(ESPObjects[player], box)
+        local connection
+        connection = _RunService.RenderStepped:Connect(function()
+            if not Toggles.Boxes.Value or not hrp or not hrp.Parent then
+                for _, line in pairs(lines) do line:Remove() end
+                connection:Disconnect()
+                return
+            end
+
+            -- Get top and bottom of character in screen space
+            local topPos, topOnScreen = _CurrentCamera:WorldToViewportPoint(hrp.Position + Vector3.new(0, 3.5, 0))
+            local botPos, botOnScreen = _CurrentCamera:WorldToViewportPoint(hrp.Position - Vector3.new(0, 2.5, 0))
+            local leftPos, leftOnScreen = _CurrentCamera:WorldToViewportPoint(hrp.Position + Vector3.new(-1.5, 0, 0))
+            local rightPos, rightOnScreen = _CurrentCamera:WorldToViewportPoint(hrp.Position + Vector3.new(1.5, 0, 0))
+
+            local onScreen = topOnScreen and botOnScreen
+
+            if onScreen then
+                local top = topPos.Y
+                local bot = botPos.Y
+                local height = bot - top
+                local width = height * 0.5
+
+                local centerX = (topPos.X + botPos.X) / 2
+
+                local x1 = centerX - width / 2
+                local x2 = centerX + width / 2
+                local y1 = top
+                local y2 = bot
+
+                -- Top line
+                lines[1].From = Vector2.new(x1, y1)
+                lines[1].To = Vector2.new(x2, y1)
+
+                -- Bottom line
+                lines[2].From = Vector2.new(x1, y2)
+                lines[2].To = Vector2.new(x2, y2)
+
+                -- Left line
+                lines[3].From = Vector2.new(x1, y1)
+                lines[3].To = Vector2.new(x1, y2)
+
+                -- Right line
+                lines[4].From = Vector2.new(x2, y1)
+                lines[4].To = Vector2.new(x2, y2)
+
+                for _, line in pairs(lines) do
+                    line.Visible = true
+                end
+            else
+                for _, line in pairs(lines) do
+                    line.Visible = false
+                end
+            end
+        end)
 
         player.CharacterRemoving:Connect(function()
-            if box and box.Parent then box:Destroy() end
+            for _, line in pairs(lines) do line:Remove() end
+            connection:Disconnect()
         end)
     end
 
