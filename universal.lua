@@ -299,21 +299,27 @@ local function createESP(player)
     ESPObjects[player] = {}
 
     local highlight = Instance.new("Highlight")
-    highlight.FillTransparency = 1        -- no fill, outline only
+    highlight.FillColor = Color3.fromRGB(0, 0, 0)
+    highlight.FillTransparency = 1
     highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
     highlight.OutlineTransparency = 0
-    highlight.DepthMode = Enum.HighlightDepthMode.Occluded -- only shows when visible, not through walls
+    --highlight.DepthMode = Enum.HighlightDepthMode.Occluded
+    highlight.Parent = game.CoreGui  -- parent to CoreGui not character
 
     table.insert(ESPObjects[player], highlight)
 
+    local function applyESP(char)
+        highlight.Adornee = char  -- use Adornee instead of parenting to character
+    end
+
     player.CharacterAdded:Connect(function(char)
         if Toggles.ESP.Value then
-            highlight.Parent = char
+            applyESP(char)
         end
     end)
 
     if player.Character then
-        highlight.Parent = player.Character
+        applyESP(player.Character)
     end
 end
 
