@@ -51,13 +51,16 @@ end)
 
 --[[ Noclip / Fly ]]--
 local function setNoclip(state)
-    if not _LocalCharacter then return end
-    for _, v in pairs(_LocalCharacter:GetDescendants()) do
-        if v:IsA("BasePart") then
-            v.CanCollide = not state
+    pcall(function()
+        if not _LocalCharacter then return end
+        for _, v in pairs(_LocalCharacter:GetDescendants()) do
+            if v:IsA("BasePart") then
+                v.CanCollide = not state
+            end
         end
-    end
+    end)
 end
+
 
 local function startFly()
     if flying then return end
@@ -72,14 +75,10 @@ end
 
 local function stopFly()
     flying = false
-    pcall(function()
-        if bodyVel then bodyVel:Destroy() end
-        if bodyGyro then bodyGyro:Destroy() end
-        if _LocalCharacter then setNoclip(false) end
-        if _LocalHumanoid then _LocalHumanoid.PlatformStand = false end
-    end)
-    bodyVel = nil
-    bodyGyro = nil
+    if bodyVel then bodyVel:Destroy() end
+    if bodyGyro then bodyGyro:Destroy() end
+    setNoclip(false)
+    if _LocalHumanoid then _LocalHumanoid.PlatformStand = false end
 end
 
 _RunService.RenderStepped:Connect(function()

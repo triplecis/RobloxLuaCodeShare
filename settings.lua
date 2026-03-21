@@ -2,7 +2,7 @@ print('Settings module loaded')
 
 --[[ Groupboxes ]]--
 local SettingsMenu = _Tabs.Settings:AddLeftGroupbox('Menu')
-local SettingsDiscord = _Tabs.Settings:AddLeftGroupbox('Discord')
+local SettingsDiscord = _Tabs.Settings:AddRightGroupbox('Discord')
 
 --[[ Menu ]]--
 SettingsMenu:AddLabel("Menu keybind"):AddKeyPicker("MenuKeybind", {
