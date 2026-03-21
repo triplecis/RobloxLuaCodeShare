@@ -352,7 +352,7 @@ local function createBox(player)
         for i = 1, 4 do
             local line = Drawing.new("Line")
             line.Thickness = 1
-            line.Color = Color3.fromRGB(255, 0, 0)
+            line.Color = Color3.fromRGB(255, 255, 255)
             line.Transparency = 1
             line.Visible = false
             table.insert(lines, line)
