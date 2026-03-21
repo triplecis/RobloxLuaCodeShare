@@ -1,5 +1,12 @@
 print('Executed SMILE at ' .. os.date('%X'))
 
+local ok, version = pcall(function()
+    return game:HttpGet('https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/version.txt' .. '?t=' .. os.time())
+end)
+
+local version = ok and version:gsub('%s+', '') or 'Unknown'
+print('SMILE Version: ' .. version)
+
 --[[ Services ]]--
 _Players = game:GetService("Players")
 _RunService = game:GetService("RunService")
@@ -42,6 +49,10 @@ _Window = _Linoria.Library:CreateWindow({
     Title = 'SMILE',
     Center = true,
     AutoShow = true,
+    TabPadding = 8,
+    MenuFadeTime = 0.2
+    --Position = float (optional)
+    --Size = float (optional)
 })
 
 local MarketplaceService = game:GetService("MarketplaceService")
