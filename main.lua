@@ -55,9 +55,26 @@ _Window = _Linoria.Library:CreateWindow({
     --Size = float (optional)
 })
 
+local function cleanGameName(name)
+    -- Remove common tags like [UPD], [NEW], [BETA], (UPD), etc
+    name = name:gsub('%[.-%]', '')   -- removes anything in [brackets]
+    name = name:gsub('%(.-%)', '')   -- removes anything in (parentheses)
+    name = name:gsub('%❗.-%❗', '') -- removes emoji wrapped text
+    name = name:gsub('^%s+', '')     -- trim leading spaces
+    name = name:gsub('%s+$', '')     -- trim trailing spaces
+    name = name:gsub('%s+', ' ')     -- collapse multiple spaces
+
+    -- Truncate to 12 chars if still too long
+    if #name > 12 then
+        name = name:sub(1, 12):match('(.-)%s*$') -- trim trailing space after cut
+    end
+
+    return name ~= '' and name or 'Game'
+end
+
 local MarketplaceService = game:GetService("MarketplaceService")
 local success, info = pcall(function() return MarketplaceService:GetProductInfo(PlaceId) end)
-local gameName = success and info.Name:sub(1, 12) or "Game"
+local gameName = success and cleanGameName(info.Name) or 'Game'
 
 local GameModules = {
     [12196278347] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/refinerycaves2.lua', -- Refinery Caves 2

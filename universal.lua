@@ -20,6 +20,7 @@ local vehicleVelocity = Vector3.zero
 local vehicleBodyVel
 local vehicleBodyGyro
 local currentSeat
+local seatLockConnection
 
 local platformPart = nil
 local platformActive = false
@@ -124,6 +125,13 @@ local function startVehicleFly()
     vehicleBodyGyro.MaxTorque = Vector3.new(1e6, 1e6, 1e6)
     vehicleBodyGyro.CFrame = root.CFrame
     vehicleBodyGyro.Parent = root
+
+    seatLockConnection = _RunService.Heartbeat:Connect(function()
+        if not vehicleFlying or not currentSeat then return end
+        if currentSeat:IsA("VehicleSeat") and currentSeat.Occupant ~= _LocalHumanoid then
+            currentSeat:Sit(_LocalHumanoid)
+        end
+    end)
 end
 
 local function stopVehicleFly()
@@ -131,6 +139,10 @@ local function stopVehicleFly()
     if vehicleBodyVel then vehicleBodyVel:Destroy() end
     if vehicleBodyGyro then vehicleBodyGyro:Destroy() end
     vehicleVelocity = Vector3.zero
+    if seatLockConnection then
+        seatLockConnection:Disconnect()
+        seatLockConnection = nil
+    end
 end
 
 _Player.CharacterAdded:Connect(function(char)
@@ -207,11 +219,13 @@ local function createPlatform()
     if not root then return end
 
     platformPart = Instance.new("Part")
-    platformPart.Size = Vector3.new(6, 0.5, 6)
+    platformPart.Size = Vector3.new(3, 0.5, 3)
+    platformPart.Transparency = 0.5
+    platformPart.Rotation = Vector3.new(0, 0, 0)
     platformPart.Anchored = true
     platformPart.CanCollide = true
     platformPart.BrickColor = BrickColor.new("Medium stone grey")
-    platformPart.Material = Enum.Material.SmoothPlastic
+    platformPart.Material = Enum.Material.Plastic
     platformPart.CastShadow = false
     platformPart.Name = "SMILEPlatform"
     platformPart.Parent = _LocalCharacter
@@ -786,9 +800,9 @@ UniversalMovement:AddToggle('Platform', {
 
 UniversalMovement:AddSlider('PlatformSize', {
     Text = 'Platform Size',
-    Default = 6,
+    Default = 3,
     Min = 2,
-    Max = 20,
+    Max = 5,
     Rounding = 0,
     Compact = true,
     Callback = function(value)
