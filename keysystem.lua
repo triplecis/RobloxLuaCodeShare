@@ -2,7 +2,13 @@
 local KeySystem = {}
 
 --[[ Load Config ]]--
-local config = loadstring(game:HttpGet('https://raw.githubusercontent.com/triplecis/SMILE-PRIVATE/refs/heads/main/config.lua' .. '?t=' .. os.time()))()
+local ok2, err2 = pcall(function()
+    local config = loadstring(game:HttpGet('https://raw.githubusercontent.com/triplecis/SMILE-PRIVATE/refs/heads/main/config.lua' .. '?t=' .. os.time()))()
+    print('Config API_URL:', config.API_URL)
+end)
+
+print('Config load ok:', ok2)
+print('Config error:', err2)
 
 local API_URL    = config.API_URL
 local API_SECRET = config.API_SECRET
