@@ -1,14 +1,14 @@
 print('Executed SMILE at ' .. os.date('%X'))
 
 --[[ Key System ]]--
---[[local KeySystem = loadstring(game:HttpGet('https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/keySystem.lua' .. '?t=' .. os.time()))()
+local KeySystem = loadstring(game:HttpGet('https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/keySystem.lua' .. '?t=' .. os.time()))()
 
 local valid, tier = KeySystem:Prompt()
 if not valid then
     warn('SMILE: Stopping execution')
     return
 end
-]]
+
 
 _UserTier = tier
 print('SMILE: Loaded as [' .. tier .. '] user')

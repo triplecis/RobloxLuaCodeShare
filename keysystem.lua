@@ -2,7 +2,7 @@
 local KeySystem = {}
 
 --[[ Load Config ]]--
-local config = loadstring(game:HttpGet('https://raw.githubusercontent.com/triplecis/SMILE-private/refs/heads/main/config.lua' .. '?t=' .. os.time()))()
+local config = loadstring(game:HttpGet('https://raw.githubusercontent.com/triplecis/SMILE-PRIVATE/refs/heads/main/config.lua' .. '?t=' .. os.time()))()
 
 local API_URL    = config.API_URL
 local API_SECRET = config.API_SECRET
@@ -35,11 +35,14 @@ end
 --[[ Validation ]]--
 local function validatePremium(key)
     local ok, response = pcall(function()
-        return game:HttpGet(
-            API_URL .. '/validate?key=' .. key .. '&hwid=' .. getHwid(),
-            true,
-            { ['x-api-secret'] = API_SECRET }
-        )
+        local res = (request or http_request)({
+            Url = API_URL .. '/validate?key=' .. key .. '&hwid=' .. getHwid(),
+            Method = 'GET',
+            Headers = {
+                ['x-api-secret'] = API_SECRET
+            }
+        })
+        return res.Body
     end)
 
     if not ok then
