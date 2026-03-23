@@ -45,7 +45,9 @@ _Linoria.SaveManager:IgnoreThemeSettings()
 _Linoria.ThemeManager:SetFolder('SMILE/themes')
 _Linoria.SaveManager:SetFolder('SMILE/configs')
 
---[[ Key System ]]--
+--[[
+Key System - Disabled
+
 local raw = game:HttpGet('https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/keysystem.lua' .. '?t=' .. os.time())
 print('Raw length:', #raw)
 print('Last 50 chars:', raw:sub(-50))
@@ -75,6 +77,7 @@ end
 _UserTier = tier
 print('SMILE: Loaded as [' .. tier .. '] user')
 print('SMILE: Loaded as [' .. tier .. '] user')
+]]--
 
 _Window = _Linoria.Library:CreateWindow({
     Title = 'SMILE',
