@@ -1,11 +1,5 @@
 local ReplicatedMaps = _ReplicatedStorage:WaitForChild('Maps')
 
-for _, map in pairs(ReplicatedMaps:GetChildren()) do
-    if map:IsA('Model') then
-        return
-    end
-end
-
 --[[ Color Book 
 
 Nothing yet
