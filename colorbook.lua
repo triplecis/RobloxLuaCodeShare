@@ -12,8 +12,20 @@ local function onMapUnloaded(mapName)
 end
 
 local function checkWorkspaceForMap()
+    print('Checking workspace for maps...')
+    print('Maps in ReplicatedStorage.Maps:')
+    for _, map in pairs(ReplicatedMaps:GetChildren()) do
+        print('  - "' .. map.Name .. '"')
+    end
+    
+    print('Children in Workspace:')
+    for _, child in pairs(workspace:GetChildren()) do
+        print('  - "' .. child.Name .. '"')
+    end
+
     for _, map in pairs(ReplicatedMaps:GetChildren()) do
         if workspace:FindFirstChild(map.Name) then
+            print('Found map: ' .. map.Name)
             return workspace:FindFirstChild(map.Name)
         end
     end
