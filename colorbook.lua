@@ -1,62 +1,58 @@
 local ReplicatedMaps = _ReplicatedStorage:WaitForChild('Maps')
 local currentMap = nil
 
+local ReplicatedMaps = _ReplicatedStorage:WaitForChild('Maps')
+local currentMap = nil
+local mapNames = {}
+
+-- Store all map names from ReplicatedStorage before they get moved
+for _, map in pairs(ReplicatedMaps:GetChildren()) do
+    mapNames[map.Name] = true
+    print('Registered map: ' .. map.Name)
+end
+
+-- Watch for new maps added to ReplicatedStorage
+ReplicatedMaps.ChildAdded:Connect(function(map)
+    mapNames[map.Name] = true
+    print('Registered new map: ' .. map.Name)
+end)
+
 local function onMapLoaded(mapName)
     print('Map loaded: ' .. mapName)
-    -- your map specific code here
 end
 
 local function onMapUnloaded(mapName)
     print('Map unloaded: ' .. mapName)
-    -- cleanup code here
+    currentMap = nil
 end
 
-local function checkWorkspaceForMap()
-    print('Checking workspace for maps...')
-    print('Maps in ReplicatedStorage.Maps:')
-    for _, map in pairs(ReplicatedMaps:GetChildren()) do
-        print('  - "' .. map.Name .. '"')
-    end
-    
-    print('Children in Workspace:')
-    for _, child in pairs(workspace:GetChildren()) do
-        print('  - "' .. child.Name .. '"')
-    end
-
-    for _, map in pairs(ReplicatedMaps:GetChildren()) do
-        if workspace:FindFirstChild(map.Name) then
-            print('Found map: ' .. map.Name)
-            return workspace:FindFirstChild(map.Name)
-        end
-    end
-    return nil
-end
-
+-- Watch workspace for any map appearing
 workspace.ChildAdded:Connect(function(child)
-    if ReplicatedMaps:FindFirstChild(child.Name) then
+    if mapNames[child.Name] then
         currentMap = child
         onMapLoaded(child.Name)
 
         child.AncestryChanged:Connect(function()
             if not child:IsDescendantOf(workspace) then
                 onMapUnloaded(child.Name)
-                currentMap = nil
             end
         end)
     end
 end)
 
-local existingMap = checkWorkspaceForMap()
-if existingMap then
-    currentMap = existingMap
-    onMapLoaded(existingMap.Name)
+-- Check if a map is already in workspace when script runs
+for _, child in pairs(workspace:GetChildren()) do
+    if mapNames[child.Name] then
+        currentMap = child
+        onMapLoaded(child.Name)
 
-    existingMap.AncestryChanged:Connect(function()
-        if not existingMap:IsDescendantOf(workspace) then
-            onMapUnloaded(existingMap.Name)
-            currentMap = nil
-        end
-    end)
+        child.AncestryChanged:Connect(function()
+            if not child:IsDescendantOf(workspace) then
+                onMapUnloaded(child.Name)
+            end
+        end)
+        break
+    end
 end
 
 local function paintAll()
