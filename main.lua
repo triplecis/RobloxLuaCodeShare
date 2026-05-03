@@ -1,11 +1,11 @@
-print('Executed SMILE at ' .. os.date('%X'))
+print('Executed Silveria at ' .. os.date('%X'))
 
 local ok, version = pcall(function()
-    return game:HttpGet('https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/version.txt' .. '?t=' .. os.time())
+    return game:HttpGet('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/version.txt' .. '?t=' .. os.time())
 end)
 
 local version = ok and version:gsub('%s+', '') or 'Unknown'
-print('SMILE Version: ' .. version)
+print('Silveria Version: ' .. version)
 
 --[[ Services ]]--
 _Players = game:GetService("Players")
@@ -40,19 +40,19 @@ _Linoria = {
     SaveManager = loadstring(game:HttpGet('https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/addons/SaveManager.lua'))(),
 }
 local _LINORIASCREENGUI = _Linoria.Library.ScreenGui
-_LINORIASCREENGUI.Name = 'LinoriaUI_SMILE'
-_Linoria.Library:Notify('SMILE', 'Loaded SMILE version ' .. version .. ' on executor: ' .. Executor, 5)
+_LINORIASCREENGUI.Name = 'LinoriaUI_Silveria'
+_Linoria.Library:Notify('Silveria', 'Loaded Silveria version ' .. version .. ' on executor: ' .. Executor, 5)
 
 _Linoria.ThemeManager:SetLibrary(_Linoria.Library)
 _Linoria.SaveManager:SetLibrary(_Linoria.Library)
 _Linoria.SaveManager:IgnoreThemeSettings()
-_Linoria.ThemeManager:SetFolder('SMILE/themes')
-_Linoria.SaveManager:SetFolder('SMILE/configs')
+_Linoria.ThemeManager:SetFolder('Silveria/themes')
+_Linoria.SaveManager:SetFolder('Silveria/configs')
 
 --[[
 Key System - Disabled
 
-local raw = game:HttpGet('https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/keysystem.lua' .. '?t=' .. os.time())
+local raw = game:HttpGet('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/keysystem.lua' .. '?t=' .. os.time())
 print('Raw length:', #raw)
 print('Last 50 chars:', raw:sub(-50))
 
@@ -68,23 +68,23 @@ if fn then
 end
 
 if not KeySystem then
-    warn('SMILE: Failed to load KeySystem')
+    warn('Silveria: Failed to load KeySystem')
     return
 end
 
 local valid, tier = KeySystem:Prompt()
 if not valid then
-    warn('SMILE: Stopping execution')
+    warn('Silveria: Stopping execution')
     return
 end
 
 _UserTier = tier
-print('SMILE: Loaded as [' .. tier .. '] user')
-print('SMILE: Loaded as [' .. tier .. '] user')
+print('Silveria: Loaded as [' .. tier .. '] user')
+print('Silveria: Loaded as [' .. tier .. '] user')
 ]]--
 
 _Window = _Linoria.Library:CreateWindow({
-    Title = 'SMILE',
+    Title = 'Silveria',
     Center = true,
     AutoShow = true,
     TabPadding = 8,
@@ -115,19 +115,19 @@ local success, info = pcall(function() return MarketplaceService:GetProductInfo(
 local gameName = success and cleanGameName(info.Name) or 'Game'
 
 local GameModules = {
-    [5523851880] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/8ballpoolclassic.lua', -- 8 Ball Pool Classic
-    [6722921118] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/colorbook.lua', -- Color Book
-    [277751860] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/epicminigames.lua', -- Epic Minigames
-    [16732694052] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/fisch.lua', -- Fisch
-    [893973440] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/fleethefacility.lua', -- Flee the Facility
-    [621129760] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/kat.lua', -- Kat [ORIGINAL] by Fierzaa
-    [111163066268338] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/katOffbrand.lua', -- Kat [CHUD] by Murder Mystery Franchise
-    [142823291] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/murdermystery2.lua', -- Murder Mystery 2
-    [15092647980] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/projectsmash.lua', -- Project Smash
-    [12196278347] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/refinerycaves2.lua', -- Refinery Caves 2
-    [11379739543] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/timebombduels.lua', -- Timebomb Duels
-    [2653064683] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/wordbomb.lua', -- Word Bomb
-    [192800] = 'https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/workatapizzaplace.lua', -- Work at a Pizza Place
+    [5523851880] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/8ballpoolclassic.lua', -- 8 Ball Pool Classic
+    [6722921118] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/colorbook.lua', -- Color Book
+    [277751860] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/epicminigames.lua', -- Epic Minigames
+    [16732694052] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/fisch.lua', -- Fisch
+    [893973440] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/fleethefacility.lua', -- Flee the Facility
+    [621129760] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/kat.lua', -- Kat [ORIGINAL] by Fierzaa
+    [111163066268338] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/katOffbrand.lua', -- Kat [CHUD] by Murder Mystery Franchise
+    [142823291] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/murdermystery2.lua', -- Murder Mystery 2
+    [15092647980] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/projectsmash.lua', -- Project Smash
+    [12196278347] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/refinerycaves2.lua', -- Refinery Caves 2
+    [11379739543] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/timebombduels.lua', -- Timebomb Duels
+    [2653064683] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/wordbomb.lua', -- Word Bomb
+    [192800] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/workatapizzaplace.lua', -- Work at a Pizza Place
     
 }
 
@@ -154,9 +154,9 @@ local function loadModule(url)
     end
 end
 
-loadModule('https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/universal.lua') -- Universal
-loadModule('https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/settings.lua') -- Settings
-loadModule('https://raw.githubusercontent.com/triplecis/SMILE/refs/heads/main/playerslist.lua') -- Players List
+loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/universal.lua') -- Universal
+loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/settings.lua') -- Settings
+loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/playerslist.lua') -- Players List
 
 if GameModules[PlaceId] then
     loadModule(GameModules[PlaceId])
