@@ -40,7 +40,7 @@ _Linoria = {
     SaveManager = loadstring(game:HttpGet('https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/addons/SaveManager.lua'))(),
 }
 local _LINORIASCREENGUI = _Linoria.Library.ScreenGui
-_LINORIASCREENGUI.Name = 'LinoriaUI_Silveria'
+_LINORIASCREENGUI.Name = 'Silveria'
 _Linoria.Library:Notify('Silveria', 'Loaded Silveria version ' .. version .. ' on executor: ' .. Executor, 5)
 
 _Linoria.ThemeManager:SetLibrary(_Linoria.Library)
@@ -48,40 +48,6 @@ _Linoria.SaveManager:SetLibrary(_Linoria.Library)
 _Linoria.SaveManager:IgnoreThemeSettings()
 _Linoria.ThemeManager:SetFolder('Silveria/themes')
 _Linoria.SaveManager:SetFolder('Silveria/configs')
-
---[[
-Key System - Disabled
-
-local raw = game:HttpGet('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/keysystem.lua' .. '?t=' .. os.time())
-print('Raw length:', #raw)
-print('Last 50 chars:', raw:sub(-50))
-
-local fn, err = loadstring(raw)
-print('Loadstring fn:', fn)
-print('Loadstring err:', err)
-
-if fn then
-    local ok, result = pcall(fn)
-    print('Execution ok:', ok)
-    print('Result:', result)
-    print('Result type:', type(result))
-end
-
-if not KeySystem then
-    warn('Silveria: Failed to load KeySystem')
-    return
-end
-
-local valid, tier = KeySystem:Prompt()
-if not valid then
-    warn('Silveria: Stopping execution')
-    return
-end
-
-_UserTier = tier
-print('Silveria: Loaded as [' .. tier .. '] user')
-print('Silveria: Loaded as [' .. tier .. '] user')
-]]--
 
 _Window = _Linoria.Library:CreateWindow({
     Title = 'Silveria'... (version ~= 'Unknown' and (' | v' .. version) or ''),
@@ -140,9 +106,6 @@ _Tabs = {
     PlayersList = _Window:AddTab('PlayersList'),
     Settings = _Window:AddTab('Settings'),
 }
-
---[[ Linoria UI ]]--
-local MainLeftGroupBox = _Tabs.Main:AddLeftGroupbox('Example')
 
 --[[ Functions ]]--
 local function loadModule(url)
