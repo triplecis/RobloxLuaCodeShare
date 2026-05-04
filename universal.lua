@@ -804,7 +804,7 @@ UniversalVehicle:AddLabel("Vehicle Fly Keybind"):AddKeyPicker("VehicleFlyKey", {
     end
 })
 
-UniversalMovement:AddSlider('WalkSpeed', {
+UniversalPlayer:AddSlider('WalkSpeed', {
     Text = 'WalkSpeed',
     Default = 16,
     Min = 0,
@@ -816,7 +816,7 @@ UniversalMovement:AddSlider('WalkSpeed', {
 })
 
 if _LocalHumanoid.UseJumpPower == false then
-    UniversalMovement:AddSlider('JumpHeight', {
+    UniversalPlayer:AddSlider('JumpHeight', {
         Text = 'Jump Height',
         Tooltip = 'Default: 7.2',
         Default = 7.2,
@@ -828,7 +828,7 @@ if _LocalHumanoid.UseJumpPower == false then
         end
     })
 else
-    UniversalMovement:AddSlider('JumpPower', {
+    UniversalPlayer:AddSlider('JumpPower', {
         Text = 'Jump Power',
         Tooltip = 'Default: 50',
         Default = 50,
@@ -841,12 +841,12 @@ else
     })
 end
 
-UniversalMovement:AddToggle('InfiniteJump', {
+UniversalPlayer:AddToggle('InfiniteJump', {
     Text = 'Infinite Jump',
     Default = false
 })
 
-UniversalMovement:AddToggle('Platform', {
+UniversalPlayer:AddToggle('Platform', {
     Text = 'Platform',
     Tooltip = 'Q = Down, E = Up',
     Default = false,
@@ -860,7 +860,7 @@ UniversalMovement:AddToggle('Platform', {
     end
 })
 
-UniversalMovement:AddSlider('PlatformSize', {
+UniversalPlayer:AddSlider('PlatformSize', {
     Text = 'Platform Size',
     Default = 3,
     Min = 2,
@@ -874,7 +874,7 @@ UniversalMovement:AddSlider('PlatformSize', {
     end
 })
 
-UniversalMovement:AddSlider('PlatformSpeed', {
+UniversalPlayer:AddSlider('PlatformSpeed', {
     Text = 'Platform Speed',
     Default = 2,
     Min = 1,
@@ -886,18 +886,18 @@ UniversalMovement:AddSlider('PlatformSpeed', {
     end
 })
 
-UniversalMovement:AddToggle('Noclip', {
+UniversalPlayer:AddToggle('Noclip', {
     Text = 'Noclip',
     Default = false
 })
 
-UniversalMovement:AddToggle('ClickTP', {
+UniversalPlayer:AddToggle('ClickTP', {
     Text = 'Click TP',
     Tooltip = 'Left Shift + Left Click',
     Default = false
 })
 
-local PlayerDropdown = UniversalMovement:AddDropdown('UniversalPlayerlist', {
+local PlayerDropdown = UniversalPlayer:AddDropdown('UniversalPlayerlist', {
     Text = 'Player List',
     Default = nil,
     AllowNull = true,
@@ -905,7 +905,7 @@ local PlayerDropdown = UniversalMovement:AddDropdown('UniversalPlayerlist', {
     Multi = false,
 })
 
-UniversalMovement:AddButton('Teleport to Player', function()
+UniversalPlayer:AddButton('Teleport to Player', function()
     local targetName = Options.UniversalPlayerlist.Value
     if not targetName or targetName == "" then return end
 
@@ -918,7 +918,7 @@ UniversalMovement:AddButton('Teleport to Player', function()
     end
 end)
 
-UniversalMovement:AddButton('Spectate Player', function()
+UniversalPlayer:AddButton('Spectate Player', function()
     local targetName = Options.UniversalPlayerlist.Value
     if not targetName or targetName == "" then return end
 
@@ -928,7 +928,7 @@ UniversalMovement:AddButton('Spectate Player', function()
     _CurrentCamera.CameraSubject = targetPlayer.Character:FindFirstChild("Humanoid")
 end)
 
-UniversalMovement:AddButton('Stop Spectating', function()
+UniversalPlayer:AddButton('Stop Spectating', function()
     _CurrentCamera.CameraSubject = _LocalHumanoid
 end)
 

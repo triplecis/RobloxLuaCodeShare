@@ -84,7 +84,7 @@ print('Silveria: Loaded as [' .. tier .. '] user')
 ]]--
 
 _Window = _Linoria.Library:CreateWindow({
-    Title = 'Silveria',
+    Title = 'Silveria'... (version ~= 'Unknown' and (' | v' .. version) or ''),
     Center = true,
     AutoShow = true,
     TabPadding = 8,
@@ -153,9 +153,12 @@ local function loadModule(url)
         warn('Failed to load: ' .. url .. '\n' .. err)
     end
 end
-
+-- Home
 loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/universal.lua') -- Universal
+-- Scripts
+-- Ranks / Premium
 loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/settings.lua') -- Settings
+-- Control
 loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/playerslist.lua') -- Players List
 
 if GameModules[PlaceId] then
