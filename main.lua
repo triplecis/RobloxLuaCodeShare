@@ -1,11 +1,13 @@
-print('Executed Silveria at ' .. os.date('%X'))
+print('Main load')
 
+--[[
 local ok, version = pcall(function()
     return game:HttpGet('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/version.txt' .. '?t=' .. os.time())
 end)
-
 local version = ok and version:gsub('%s+', '') or 'Unknown'
+
 print('Silveria Version: ' .. version)
+]]--
 
 --[[ Services ]]--
 _Players = game:GetService("Players")
@@ -29,9 +31,9 @@ _Workspace = workspace or Workspace
 
 --[[ Executor / Game Info ]]--
 local Executor = identifyexecutor and identifyexecutor() or "Unknown"
-local PlaceId = game.PlaceId
-local JobId = game.JobId
-local GameId = game.GameId
+_PlaceId = game.PlaceId
+_JobId = game.JobId
+_GameId = game.GameId
 
 --[[ Linoria ]]--
 _Linoria = {
@@ -41,7 +43,6 @@ _Linoria = {
 }
 local _LINORIASCREENGUI = _Linoria.Library.ScreenGui
 _LINORIASCREENGUI.Name = 'Silveria'
-_Linoria.Library:Notify('Silveria', 'Loaded Silveria version ' .. version .. ' on executor: ' .. Executor, 5)
 
 _Linoria.ThemeManager:SetLibrary(_Linoria.Library)
 _Linoria.SaveManager:SetLibrary(_Linoria.Library)
@@ -50,7 +51,7 @@ _Linoria.ThemeManager:SetFolder('Silveria/themes')
 _Linoria.SaveManager:SetFolder('Silveria/configs')
 
 _Window = _Linoria.Library:CreateWindow({
-    Title = 'Silveria'... (version ~= 'Unknown' and (' | v' .. version) or ''),
+    Title = '◈ Silveria'... (version ~= 'Unknown' and (' | v' .. version) or ''),
     Center = true,
     AutoShow = true,
     TabPadding = 8,
@@ -77,34 +78,36 @@ local function cleanGameName(name)
 end
 
 local MarketplaceService = game:GetService("MarketplaceService")
-local success, info = pcall(function() return MarketplaceService:GetProductInfo(PlaceId) end)
+local success, info = pcall(function() return MarketplaceService:GetProductInfo(_PlaceId) end)
 local gameName = success and cleanGameName(info.Name) or 'Game'
 
-local GameModules = {
-    [5523851880] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/8ballpoolclassic.lua', -- 8 Ball Pool Classic
-    [6722921118] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/colorbook.lua', -- Color Book
-    [277751860] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/epicminigames.lua', -- Epic Minigames
-    [16732694052] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/fisch.lua', -- Fisch
-    [893973440] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/fleethefacility.lua', -- Flee the Facility
-    [621129760] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/kat.lua', -- Kat [ORIGINAL] by Fierzaa
-    [111163066268338] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/katOffbrand.lua', -- Kat [CHUD] by Murder Mystery Franchise
-    [142823291] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/murdermystery2.lua', -- Murder Mystery 2
-    [15092647980] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/projectsmash.lua', -- Project Smash
-    [12196278347] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/refinerycaves2.lua', -- Refinery Caves 2
-    [11379739543] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/timebombduels.lua', -- Timebomb Duels
-    [2653064683] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/wordbomb.lua', -- Word Bomb
-    [192800] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/workatapizzaplace.lua', -- Work at a Pizza Place
+local _GameModules = {
+    [5523851880] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/8ballpoolclassic.lua', -- 8 Ball Pool Classic
+    [6722921118] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/colorbook.lua', -- Color Book
+    [277751860] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/epicminigames.lua', -- Epic Minigames
+    [16732694052] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/fisch.lua', -- Fisch
+    [893973440] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/fleethefacility.lua', -- Flee the Facility
+    [621129760] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/kat.lua', -- Kat [ORIGINAL] by Fierzaa
+    [111163066268338] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/katOffbrand.lua', -- Kat [CHUD] by Murder Mystery Franchise
+    [142823291] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/murdermystery2.lua', -- Murder Mystery 2
+    [15092647980] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/projectsmash.lua', -- Project Smash
+    [12196278347] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/refinerycaves2.lua', -- Refinery Caves 2
+    [11379739543] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/timebombduels.lua', -- Timebomb Duels
+    [2653064683] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/wordbomb.lua', -- Word Bomb
+    [192800] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/workatapizzaplace.lua', -- Work at a Pizza Place
     
 }
 
-local hasGameModule = GameModules[PlaceId] ~= nil
+local hasGameModule = _GameModules[_PlaceId] ~= nil
 
 _Tabs = {
-    Main = _Window:AddTab('Main'),
-    Game = hasGameModule and _Window:AddTab(gameName) or nil,
+    Home = _Window:AddTab('Main'),
     Universal = _Window:AddTab('Universal'),
-    PlayersList = _Window:AddTab('PlayersList'),
+    Game = hasGameModule and _Window:AddTab(gameName) or nil,
+    Scripts = _Window:AddTab('Scripts'),
     Settings = _Window:AddTab('Settings'),
+    Control = _Window:AddTab('Control'),
+    Game = _Window:AddTab('Game'),
 }
 
 --[[ Functions ]]--
@@ -116,16 +119,16 @@ local function loadModule(url)
         warn('Failed to load: ' .. url .. '\n' .. err)
     end
 end
--- Home
+loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/home.lua') -- Home
 loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/universal.lua') -- Universal
--- Scripts
--- Ranks / Premium
+loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/scripts.lua') -- Scripts
+--loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/ranks.lua') -- Ranks
 loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/settings.lua') -- Settings
--- Control
-loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/playerslist.lua') -- Players List
+--loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/control.lua') -- Control
+loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/game.lua') -- Game
 
-if GameModules[PlaceId] then
-    loadModule(GameModules[PlaceId])
+if _GameModules[_PlaceId] then
+    loadModule(_GameModules[_PlaceId])
 else
     print('No specific module for this game, universal only.')
 end
