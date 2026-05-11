@@ -57,45 +57,24 @@ _Window = _Linoria.Library:CreateWindow({
     --Size = 600
 })
 
-local function cleanGameName(name)
-    -- Remove common tags like [UPD], [NEW], [BETA], (UPD), etc
-    name = name:gsub('%[.-%]', '')   -- removes anything in [brackets]
-    name = name:gsub('%(.-%)', '')   -- removes anything in (parentheses)
-    name = name:gsub('%❗.-%❗', '') -- removes emoji wrapped text
-    name = name:gsub('^%s+', '')     -- trim leading spaces
-    name = name:gsub('%s+$', '')     -- trim trailing spaces
-    name = name:gsub('%s+', ' ')     -- collapse multiple spaces
-
-    -- Truncate to 12 chars if still too long
-    if #name > 12 then
-        name = name:sub(1, 12):match('(.-)%s*$') -- trim trailing space after cut
-    end
-
-    return name ~= '' and name or 'Game'
-end
-
-local MarketplaceService = game:GetService("MarketplaceService")
-local success, info = pcall(function() return MarketplaceService:GetProductInfo(PlaceId) end)
-local gameName = success and cleanGameName(info.Name) or 'Game'
-
 local GameModules = {
-    [5523851880] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/8ballpoolclassic.lua', -- 8 Ball Pool Classic
-    [6722921118] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/colorbook.lua', -- Color Book
-    [277751860] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/epicminigames.lua', -- Epic Minigames
-    [16732694052] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/fisch.lua', -- Fisch
-    [893973440] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/fleethefacility.lua', -- Flee the Facility
-    [621129760] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/kat.lua', -- Kat [ORIGINAL] by Fierzaa
-    [111163066268338] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/katOffbrand.lua', -- Kat [CHUD] by Murder Mystery Franchise
-    [142823291] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/murdermystery2.lua', -- Murder Mystery 2
-    [15092647980] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/projectsmash.lua', -- Project Smash
-    [12196278347] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/refinerycaves2.lua', -- Refinery Caves 2
-    [11379739543] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/timebombduels.lua', -- Timebomb Duels
-    [2653064683] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/wordbomb.lua', -- Word Bomb
-    [192800] = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/workatapizzaplace.lua', -- Work at a Pizza Place
-    
+    [5523851880] = { url = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/8ballpoolclassic.lua', name = '8BPC' },
+    [6722921118] = { url = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/colorbook.lua', name = 'Color Book' },
+    [277751860] = { url = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/epicminigames.lua', name = 'EMG' },
+    [16732694052] = { url = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/fisch.lua', name = 'Fisch' },
+    [893973440] = { url = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/fleethefacility.lua', name = 'FTF' },
+    [621129760] = { url = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/kat.lua', name = 'KAT' },
+    [111163066268338] = { url = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/katOffbrand.lua', name = 'KAT2' },
+    [142823291] = { url = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/murdermystery2.lua', name = 'MM2' },
+    [15092647980] = { url = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/projectsmash.lua', name = 'Project Smash' },
+    [12196278347] = { url = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/refinerycaves2.lua', name = 'RC2' },
+    [11379739543] = { url = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/timebombduels.lua', name = 'TBD' },
+    [2653064683] = { url = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/wordbomb.lua', name = 'Word Bomb' },
+    [192800] = { url = 'https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/Games/workatapizzaplace.lua', name = 'WAAPP' },
 }
 
 local hasGameModule = GameModules[PlaceId] ~= nil
+local gameName = hasGameModule and GameModules[PlaceId].name or 'Game'
 
 _Tabs = {
     Home = _Window:AddTab('Main'),
@@ -122,10 +101,10 @@ loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main
 --loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/ranks.lua') -- Ranks
 loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/settings.lua') -- Settings
 --loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/control.lua') -- Control
-loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/game.lua') -- Game
+loadModule('https://raw.githubusercontent.com/triplecis/Silveria/refs/heads/main/lobby.lua') -- Lobby
 
-if GameModules[PlaceId] then
-    loadModule(GameModules[PlaceId])
+if hasGameModule then
+    loadModule(GameModules[PlaceId].url)
 else
     print('No specific module for this game, universal only.')
 end
